@@ -37,6 +37,7 @@
           <div class="col-12 col-sm-4">
             <q-card class="dashboard-card bg-blue-1">
               <q-card-section>
+
                 <div class="text-body1 text-grey-8">
                   Total de servicios
                 </div>
@@ -44,6 +45,7 @@
                 <div class="text-h4 text-primary">
                   {{ servicios.length }}
                 </div>
+
               </q-card-section>
             </q-card>
           </div>
@@ -51,6 +53,7 @@
           <div class="col-12 col-sm-4">
             <q-card class="dashboard-card bg-orange-1">
               <q-card-section>
+
                 <div class="text-body1 text-grey-8">
                   Pendientes de entrega
                 </div>
@@ -58,6 +61,7 @@
                 <div class="text-h4 text-orange-9">
                   {{ contarPendientes() }}
                 </div>
+
               </q-card-section>
             </q-card>
           </div>
@@ -65,6 +69,7 @@
           <div class="col-12 col-sm-4">
             <q-card class="dashboard-card bg-green-1">
               <q-card-section>
+
                 <div class="text-body1 text-grey-8">
                   Pagados
                 </div>
@@ -72,6 +77,7 @@
                 <div class="text-h4 text-green-9">
                   {{ contarPagados() }}
                 </div>
+
               </q-card-section>
             </q-card>
           </div>
@@ -105,6 +111,7 @@
           v-if="servicios.length === 0"
           class="q-pa-xl text-center"
         >
+
           <q-icon
             name="phone_android"
             size="80px"
@@ -125,6 +132,7 @@
             label="Nuevo servicio"
             @click="nuevoServicio"
           />
+
         </q-card>
 
         <!-- LISTA DE SERVICIOS -->
@@ -155,7 +163,10 @@
                     text-color="white"
                     size="55px"
                   >
-                    <q-icon name="phone_android" size="30px" />
+                    <q-icon
+                      name="phone_android"
+                      size="30px"
+                    />
                   </q-avatar>
 
                   <div class="q-ml-md">
@@ -178,7 +189,10 @@
                   color="positive"
                   class="q-pa-sm"
                 >
-                  <q-icon name="check_circle" class="q-mr-xs" />
+                  <q-icon
+                    name="check_circle"
+                    class="q-mr-xs"
+                  />
                   Pagado
                 </q-badge>
 
@@ -188,7 +202,10 @@
                   text-color="dark"
                   class="q-pa-sm"
                 >
-                  <q-icon name="payments" class="q-mr-xs" />
+                  <q-icon
+                    name="payments"
+                    class="q-mr-xs"
+                  />
                   Abono
                 </q-badge>
 
@@ -197,7 +214,10 @@
                   color="negative"
                   class="q-pa-sm"
                 >
-                  <q-icon name="warning" class="q-mr-xs" />
+                  <q-icon
+                    name="warning"
+                    class="q-mr-xs"
+                  />
                   Pendiente
                 </q-badge>
 
@@ -214,6 +234,7 @@
 
                 <!-- MARCA -->
                 <div class="col-12 col-sm-6 col-md-4">
+
                   <div class="info-label">
                     Marca
                   </div>
@@ -221,10 +242,12 @@
                   <div class="info-value">
                     {{ servicio.marca }}
                   </div>
+
                 </div>
 
                 <!-- MODELO -->
                 <div class="col-12 col-sm-6 col-md-4">
+
                   <div class="info-label">
                     Modelo
                   </div>
@@ -232,6 +255,7 @@
                   <div class="info-value">
                     {{ servicio.modelo }}
                   </div>
+
                 </div>
 
                 <!-- ARREGLOS -->
@@ -242,6 +266,7 @@
                   </div>
 
                   <div class="info-value">
+
                     <q-chip
                       v-for="arreglo in servicio.arreglos"
                       :key="arreglo"
@@ -251,6 +276,7 @@
                     >
                       {{ arreglo }}
                     </q-chip>
+
                   </div>
 
                 </div>
@@ -263,6 +289,7 @@
                   </div>
 
                   <div class="info-value">
+
                     <q-icon
                       name="engineering"
                       color="primary"
@@ -270,6 +297,7 @@
                     />
 
                     {{ servicio.tecnico }}
+
                   </div>
 
                 </div>
@@ -282,6 +310,7 @@
                   </div>
 
                   <div class="info-value">
+
                     <q-icon
                       name="event"
                       color="primary"
@@ -289,6 +318,7 @@
                     />
 
                     {{ formatearFecha(servicio.fecha) }}
+
                   </div>
 
                 </div>
@@ -327,9 +357,12 @@
                   </div>
 
                   <div class="info-value">
+
                     {{ servicio.estadoPago }}
 
-                    <span v-if="servicio.estadoPago === 'Abono'">
+                    <span
+                      v-if="servicio.estadoPago === 'Abono'"
+                    >
                       — ${{ formatearPrecio(servicio.valorAbono) }}
                     </span>
 
@@ -346,21 +379,41 @@
 
                   <div class="info-value">
 
-                    <span v-if="servicio.estadoEquipo === 'Recibido'">
-                      📥 Recibido
-                    </span>
+                    <q-chip
+                      v-if="servicio.estadoEquipo === 'Recibido'"
+                      color="blue"
+                      text-color="white"
+                      icon="move_to_inbox"
+                    >
+                      Recibido
+                    </q-chip>
 
-                    <span v-else-if="servicio.estadoEquipo === 'En reparación'">
-                      🔧 En reparación
-                    </span>
+                    <q-chip
+                      v-else-if="servicio.estadoEquipo === 'En reparación'"
+                      color="orange"
+                      text-color="white"
+                      icon="build"
+                    >
+                      En reparación
+                    </q-chip>
 
-                    <span v-else-if="servicio.estadoEquipo === 'Listo para entregar'">
-                      📦 Listo para entregar
-                    </span>
+                    <q-chip
+                      v-else-if="servicio.estadoEquipo === 'Listo para entregar'"
+                      color="purple"
+                      text-color="white"
+                      icon="inventory_2"
+                    >
+                      Listo para entregar
+                    </q-chip>
 
-                    <span v-else>
-                      ✅ Entregado
-                    </span>
+                    <q-chip
+                      v-else
+                      color="positive"
+                      text-color="white"
+                      icon="check_circle"
+                    >
+                      Entregado
+                    </q-chip>
 
                   </div>
 
@@ -368,24 +421,42 @@
 
               </div>
 
-              <!-- CALIFICACIÓN SOLO DESPUÉS DE ENTREGAR -->
+              <!-- CALIFICACIÓN -->
               <div
-                v-if="servicio.estadoEquipo === 'Entregado' && servicio.calificacion > 0"
-                class="q-mt-md"
+                v-if="servicio.estadoEquipo === 'Entregado'"
+                class="q-mt-md rating-box"
               >
 
                 <div class="info-label">
-                  Calificación del cliente
+                  ⭐ Calificación del cliente
                 </div>
 
-                <q-rating
-                  :model-value="servicio.calificacion"
-                  readonly
-                  size="30px"
-                  color="orange"
-                  icon="star_border"
-                  icon-selected="star"
-                />
+                <div
+                  v-if="servicio.calificacion > 0"
+                  class="row items-center"
+                >
+
+                  <q-rating
+                    :model-value="servicio.calificacion"
+                    readonly
+                    size="30px"
+                    color="orange"
+                    icon="star_border"
+                    icon-selected="star"
+                  />
+
+                  <span class="q-ml-sm text-body2 text-grey-7">
+                    {{ servicio.calificacion }} de 5 estrellas
+                  </span>
+
+                </div>
+
+                <div
+                  v-else
+                  class="text-grey-6"
+                >
+                  Sin calificación todavía
+                </div>
 
               </div>
 
@@ -409,11 +480,68 @@
 
             <q-separator />
 
+            <!-- CAMBIO DE ESTADO -->
+            <q-card-section
+              v-if="servicio.estadoEquipo !== 'Entregado'"
+              class="status-section"
+            >
+
+              <div class="text-body1 text-weight-medium q-mb-sm">
+                Cambiar estado del equipo
+              </div>
+
+              <div class="row q-gutter-sm">
+
+                <q-btn
+                  outline
+                  color="blue"
+                  icon="move_to_inbox"
+                  label="Recibido"
+                  :disable="servicio.estadoEquipo === 'Recibido'"
+                  @click="cambiarEstadoEquipo(servicio, 'Recibido')"
+                />
+
+                <q-btn
+                  outline
+                  color="orange"
+                  icon="build"
+                  label="En reparación"
+                  :disable="servicio.estadoEquipo === 'En reparación'"
+                  @click="cambiarEstadoEquipo(servicio, 'En reparación')"
+                />
+
+                <q-btn
+                  outline
+                  color="purple"
+                  icon="inventory_2"
+                  label="Listo para entregar"
+                  :disable="servicio.estadoEquipo === 'Listo para entregar'"
+                  @click="cambiarEstadoEquipo(servicio, 'Listo para entregar')"
+                />
+
+                <q-btn
+                  outline
+                  color="positive"
+                  icon="check_circle"
+                  label="Entregado"
+                  @click="cambiarEstadoEquipo(servicio, 'Entregado')"
+                />
+
+              </div>
+
+            </q-card-section>
+
+            <q-separator
+              v-if="servicio.estadoEquipo !== 'Entregado'"
+            />
+
             <!-- BOTONES -->
             <q-card-actions align="right">
 
-              <!-- ENTREGADO NO SE PUEDE EDITAR -->
-              <template v-if="servicio.estadoEquipo !== 'Entregado'">
+              <!-- NO EDITAR ENTREGADOS -->
+              <template
+                v-if="servicio.estadoEquipo !== 'Entregado'"
+              >
 
                 <q-btn
                   flat
@@ -438,11 +566,14 @@
                 color="positive"
                 class="q-pa-sm"
               >
+
                 <q-icon
                   name="lock"
                   class="q-mr-xs"
                 />
+
                 Registro cerrado
+
               </q-badge>
 
             </q-card-actions>
@@ -496,9 +627,11 @@
                 val => val.length >= 3 || 'Mínimo 3 caracteres'
               ]"
             >
+
               <template v-slot:prepend>
                 <q-icon name="person" />
               </template>
+
             </q-input>
 
             <!-- MARCA -->
@@ -514,9 +647,11 @@
                 val => !!val || 'Selecciona la marca'
               ]"
             >
+
               <template v-slot:prepend>
                 <q-icon name="phone_android" />
               </template>
+
             </q-select>
 
             <!-- MODELO -->
@@ -531,12 +666,14 @@
                 val => val.length >= 2 || 'Ingresa un modelo válido'
               ]"
             >
+
               <template v-slot:prepend>
                 <q-icon name="devices" />
               </template>
+
             </q-input>
 
-            <!-- ARREGLOS MÚLTIPLES -->
+            <!-- ARREGLOS -->
             <q-select
               v-model="servicioActual.arreglos"
               label="Arreglos por hacer *"
@@ -550,9 +687,11 @@
                   || 'Selecciona al menos un arreglo'
               ]"
             >
+
               <template v-slot:prepend>
                 <q-icon name="build" />
               </template>
+
             </q-select>
 
             <!-- TÉCNICO -->
@@ -571,7 +710,7 @@
               ]"
             />
 
-            <!-- FECHA AUTOMÁTICA -->
+            <!-- FECHA -->
             <q-input
               :model-value="formatearFecha(servicioActual.fecha)"
               label="Fecha y hora de recepción"
@@ -580,9 +719,11 @@
               disable
               class="q-mb-md"
             >
+
               <template v-slot:prepend>
                 <q-icon name="event" />
               </template>
+
             </q-input>
 
             <!-- PRECIO -->
@@ -594,8 +735,11 @@
               outlined
               class="q-mb-md"
               :rules="[
-                val => val !== null && val !== '' || 'El precio es obligatorio',
-                val => Number(val) >= 0 || 'El precio no puede ser negativo'
+                val => val !== null && val !== ''
+                  || 'El precio es obligatorio',
+
+                val => Number(val) >= 0
+                  || 'El precio no puede ser negativo'
               ]"
             />
 
@@ -632,7 +776,7 @@
               @update:model-value="manejarEstadoPago"
             />
 
-            <!-- VALOR DEL ABONO -->
+            <!-- ABONO -->
             <q-input
               v-if="servicioActual.estadoPago === 'Abono'"
               v-model.number="servicioActual.valorAbono"
@@ -642,24 +786,28 @@
               outlined
               class="q-mb-md"
               :rules="[
-                val => val !== null && val !== '' || 'Ingresa el valor del abono',
-                val => Number(val) > 0 || 'El abono debe ser mayor a $0',
+                val => val !== null && val !== ''
+                  || 'Ingresa el valor del abono',
+
+                val => Number(val) > 0
+                  || 'El abono debe ser mayor a $0',
+
                 val => Number(val) <= Number(servicioActual.precio)
                   || 'El abono no puede ser mayor que el precio'
               ]"
             >
+
               <template v-slot:prepend>
                 <q-icon name="payments" />
               </template>
+
             </q-input>
 
             <!-- ESTADO DEL EQUIPO -->
             <q-select
               v-model="servicioActual.estadoEquipo"
-              label="Estado del equipo"
+              label="Estado del equipo *"
               outlined
-              readonly
-              disable
               class="q-mb-md"
               :options="[
                 'Recibido',
@@ -667,32 +815,83 @@
                 'Listo para entregar',
                 'Entregado'
               ]"
+              :rules="[
+                val => !!val || 'Selecciona el estado del equipo'
+              ]"
             >
+
               <template v-slot:prepend>
                 <q-icon name="inventory_2" />
               </template>
+
+              <template v-slot:option="scope">
+
+                <q-item v-bind="scope.itemProps">
+
+                  <q-item-section avatar>
+
+                    <q-icon
+                      :name="
+                        scope.opt === 'Recibido'
+                          ? 'move_to_inbox'
+                          : scope.opt === 'En reparación'
+                            ? 'build'
+                            : scope.opt === 'Listo para entregar'
+                              ? 'inventory_2'
+                              : 'check_circle'
+                      "
+                      :color="
+                        scope.opt === 'Recibido'
+                          ? 'blue'
+                          : scope.opt === 'En reparación'
+                            ? 'orange'
+                            : scope.opt === 'Listo para entregar'
+                              ? 'purple'
+                              : 'positive'
+                      "
+                    />
+
+                  </q-item-section>
+
+                  <q-item-section>
+                    {{ scope.opt }}
+                  </q-item-section>
+
+                </q-item>
+
+              </template>
+
             </q-select>
 
             <!-- CALIFICACIÓN -->
             <div
-              v-if="modoEdicion && servicioActual.estadoEquipo === 'Entregado'"
-              class="q-mb-md"
+              v-if="servicioActual.estadoEquipo === 'Entregado'"
+              class="q-mb-md rating-box"
             >
 
               <div class="text-body1 text-weight-medium q-mb-sm">
-                Calificación del cliente
+                ⭐ Calificación del cliente
               </div>
 
               <q-rating
                 v-model="servicioActual.calificacion"
-                size="40px"
+                size="42px"
                 color="orange"
                 icon="star_border"
                 icon-selected="star"
+                icon-half="star_half"
               />
 
-              <div class="text-body2 text-grey-7 q-mt-xs">
-                El cliente puede calificar el servicio después de recibir el equipo.
+              <div class="text-body2 text-grey-7 q-mt-sm">
+
+                <span v-if="servicioActual.calificacion > 0">
+                  {{ servicioActual.calificacion }} de 5 estrellas
+                </span>
+
+                <span v-else>
+                  Selecciona una calificación
+                </span>
+
               </div>
 
             </div>
@@ -795,6 +994,7 @@
 </template>
 
 <script setup>
+
 import { ref } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
 
@@ -864,7 +1064,9 @@ const opcionesArreglos = [
 |--------------------------------------------------------------------------
 */
 
-const servicioActual = ref(crearServicioVacio())
+const servicioActual = ref(
+  crearServicioVacio()
+)
 
 /*
 |--------------------------------------------------------------------------
@@ -873,43 +1075,69 @@ const servicioActual = ref(crearServicioVacio())
 */
 
 function crearServicioVacio() {
+
   return {
+
     id: null,
+
     cliente: '',
+
     marca: '',
+
     modelo: '',
+
     arreglos: [],
+
     tecnico: '',
+
     fecha: '',
+
     precio: null,
+
     metodoPago: '',
+
     estadoPago: '',
+
     valorAbono: null,
 
-    // Siempre comienza como recibido
+    // Estado inicial
     estadoEquipo: 'Recibido',
 
-    // Se registra únicamente después de entregar
+    // Calificación de 0 a 5
     calificacion: 0,
 
     observaciones: ''
+
   }
 }
 
 /*
 |--------------------------------------------------------------------------
-| FECHA AUTOMÁTICA
+| FECHA ACTUAL
 |--------------------------------------------------------------------------
 */
 
 function obtenerFechaActual() {
+
   const ahora = new Date()
 
   const anio = ahora.getFullYear()
-  const mes = String(ahora.getMonth() + 1).padStart(2, '0')
-  const dia = String(ahora.getDate()).padStart(2, '0')
-  const hora = String(ahora.getHours()).padStart(2, '0')
-  const minutos = String(ahora.getMinutes()).padStart(2, '0')
+
+  const mes = String(
+    ahora.getMonth() + 1
+  ).padStart(2, '0')
+
+  const dia = String(
+    ahora.getDate()
+  ).padStart(2, '0')
+
+  const hora = String(
+    ahora.getHours()
+  ).padStart(2, '0')
+
+  const minutos = String(
+    ahora.getMinutes()
+  ).padStart(2, '0')
 
   return `${anio}-${mes}-${dia}T${hora}:${minutos}`
 }
@@ -921,11 +1149,13 @@ function obtenerFechaActual() {
 */
 
 function nuevoServicio() {
+
   modoEdicion.value = false
 
   servicioActual.value = crearServicioVacio()
 
-  servicioActual.value.fecha = obtenerFechaActual()
+  servicioActual.value.fecha =
+    obtenerFechaActual()
 
   mostrarModal.value = true
 }
@@ -939,9 +1169,13 @@ function nuevoServicio() {
 function guardarServicio() {
 
   if (modoEdicion.value) {
+
     editarServicio()
+
   } else {
+
     agregarServicio()
+
   }
 
   mostrarModal.value = false
@@ -956,28 +1190,52 @@ function guardarServicio() {
 function agregarServicio() {
 
   const nuevoServicio = {
+
     id: Date.now(),
-    cliente: servicioActual.value.cliente,
-    marca: servicioActual.value.marca,
-    modelo: servicioActual.value.modelo,
-    arreglos: [...servicioActual.value.arreglos],
-    tecnico: servicioActual.value.tecnico,
-    fecha: servicioActual.value.fecha,
-    precio: Number(servicioActual.value.precio),
-    metodoPago: servicioActual.value.metodoPago,
-    estadoPago: servicioActual.value.estadoPago,
+
+    cliente:
+      servicioActual.value.cliente,
+
+    marca:
+      servicioActual.value.marca,
+
+    modelo:
+      servicioActual.value.modelo,
+
+    arreglos:
+      [...servicioActual.value.arreglos],
+
+    tecnico:
+      servicioActual.value.tecnico,
+
+    fecha:
+      servicioActual.value.fecha,
+
+    precio:
+      Number(servicioActual.value.precio),
+
+    metodoPago:
+      servicioActual.value.metodoPago,
+
+    estadoPago:
+      servicioActual.value.estadoPago,
 
     valorAbono:
       servicioActual.value.estadoPago === 'Abono'
         ? Number(servicioActual.value.valorAbono)
         : 0,
 
-    // Siempre recibido al crear
-    estadoEquipo: 'Recibido',
+    estadoEquipo:
+      servicioActual.value.estadoEquipo || 'Recibido',
 
-    calificacion: 0,
+    calificacion:
+      servicioActual.value.estadoEquipo === 'Entregado'
+        ? Number(servicioActual.value.calificacion)
+        : 0,
 
-    observaciones: servicioActual.value.observaciones
+    observaciones:
+      servicioActual.value.observaciones
+
   }
 
   servicios.value.push(nuevoServicio)
@@ -985,40 +1243,60 @@ function agregarServicio() {
 
 /*
 |--------------------------------------------------------------------------
-| CARGAR PARA EDITAR
+| CARGAR SERVICIO
 |--------------------------------------------------------------------------
 */
 
 function cargarServicio(servicio) {
 
-  // Seguridad adicional
-  if (servicio.estadoEquipo === 'Entregado') {
+  // Un entregado está cerrado
+  if (
+    servicio.estadoEquipo === 'Entregado'
+  ) {
     return
   }
 
   modoEdicion.value = true
 
   servicioActual.value = {
+
     id: servicio.id,
+
     cliente: servicio.cliente,
+
     marca: servicio.marca,
+
     modelo: servicio.modelo,
 
-    arreglos: Array.isArray(servicio.arreglos)
-      ? [...servicio.arreglos]
-      : servicio.reparacion
-        ? [servicio.reparacion]
-        : [],
+    arreglos:
+      Array.isArray(servicio.arreglos)
+        ? [...servicio.arreglos]
+        : servicio.reparacion
+          ? [servicio.reparacion]
+          : [],
 
     tecnico: servicio.tecnico,
+
     fecha: servicio.fecha,
+
     precio: servicio.precio,
+
     metodoPago: servicio.metodoPago,
+
     estadoPago: servicio.estadoPago,
-    valorAbono: servicio.valorAbono || 0,
-    estadoEquipo: servicio.estadoEquipo,
-    calificacion: servicio.calificacion || 0,
-    observaciones: servicio.observaciones || ''
+
+    valorAbono:
+      servicio.valorAbono || 0,
+
+    estadoEquipo:
+      servicio.estadoEquipo || 'Recibido',
+
+    calificacion:
+      servicio.calificacion || 0,
+
+    observaciones:
+      servicio.observaciones || ''
+
   }
 
   mostrarModal.value = true
@@ -1032,44 +1310,100 @@ function cargarServicio(servicio) {
 
 function editarServicio() {
 
-  const indice = servicios.value.findIndex(
-    servicio => servicio.id === servicioActual.value.id
-  )
+  const indice =
+    servicios.value.findIndex(
+      servicio =>
+        servicio.id ===
+        servicioActual.value.id
+    )
 
   if (indice === -1) {
     return
   }
 
-  // No permitir editar un registro entregado
-  if (servicios.value[indice].estadoEquipo === 'Entregado') {
+  // No editar entregados
+  if (
+    servicios.value[indice].estadoEquipo ===
+    'Entregado'
+  ) {
     return
   }
 
   servicios.value[indice] = {
-    id: servicioActual.value.id,
-    cliente: servicioActual.value.cliente,
-    marca: servicioActual.value.marca,
-    modelo: servicioActual.value.modelo,
-    arreglos: [...servicioActual.value.arreglos],
-    tecnico: servicioActual.value.tecnico,
-    fecha: servicioActual.value.fecha,
-    precio: Number(servicioActual.value.precio),
-    metodoPago: servicioActual.value.metodoPago,
-    estadoPago: servicioActual.value.estadoPago,
+
+    id:
+      servicioActual.value.id,
+
+    cliente:
+      servicioActual.value.cliente,
+
+    marca:
+      servicioActual.value.marca,
+
+    modelo:
+      servicioActual.value.modelo,
+
+    arreglos:
+      [...servicioActual.value.arreglos],
+
+    tecnico:
+      servicioActual.value.tecnico,
+
+    fecha:
+      servicioActual.value.fecha,
+
+    precio:
+      Number(servicioActual.value.precio),
+
+    metodoPago:
+      servicioActual.value.metodoPago,
+
+    estadoPago:
+      servicioActual.value.estadoPago,
 
     valorAbono:
       servicioActual.value.estadoPago === 'Abono'
         ? Number(servicioActual.value.valorAbono)
         : 0,
 
-    estadoEquipo: servicioActual.value.estadoEquipo,
+    estadoEquipo:
+      servicioActual.value.estadoEquipo,
 
     calificacion:
       servicioActual.value.estadoEquipo === 'Entregado'
-        ? servicioActual.value.calificacion
+        ? Number(servicioActual.value.calificacion)
         : 0,
 
-    observaciones: servicioActual.value.observaciones
+    observaciones:
+      servicioActual.value.observaciones
+
+  }
+}
+
+/*
+|--------------------------------------------------------------------------
+| CAMBIAR ESTADO DEL EQUIPO
+|--------------------------------------------------------------------------
+*/
+
+function cambiarEstadoEquipo(
+  servicio,
+  nuevoEstado
+) {
+
+  // Si ya está entregado, no se puede modificar
+  if (
+    servicio.estadoEquipo === 'Entregado'
+  ) {
+    return
+  }
+
+  servicio.estadoEquipo = nuevoEstado
+
+  // Si vuelve a un estado diferente de entregado,
+  // eliminamos la calificación.
+  if (nuevoEstado !== 'Entregado') {
+    servicio.calificacion = 0
   }
 }
 
@@ -1081,20 +1415,24 @@ function editarServicio() {
 
 function confirmarEliminar(id) {
 
-  const servicio = servicios.value.find(
-    item => item.id === id
-  )
+  const servicio =
+    servicios.value.find(
+      item => item.id === id
+    )
 
   if (!servicio) {
     return
   }
 
-  // No permitir eliminar entregados
-  if (servicio.estadoEquipo === 'Entregado') {
+  // No eliminar entregados
+  if (
+    servicio.estadoEquipo === 'Entregado'
+  ) {
     return
   }
 
   servicioAEliminar.value = id
+
   mostrarConfirmacion.value = true
 }
 
@@ -1110,52 +1448,76 @@ function eliminarServicio() {
     return
   }
 
-  const indice = servicios.value.findIndex(
-    servicio => servicio.id === servicioAEliminar.value
-  )
+  const indice =
+    servicios.value.findIndex(
+      servicio =>
+        servicio.id ===
+        servicioAEliminar.value
+    )
 
   if (indice !== -1) {
 
-    // Segunda protección
-    if (servicios.value[indice].estadoEquipo !== 'Entregado') {
-      servicios.value.splice(indice, 1)
+    if (
+      servicios.value[indice].estadoEquipo !==
+      'Entregado'
+    ) {
+
+      servicios.value.splice(
+        indice,
+        1
+      )
+
     }
+
   }
 
   servicioAEliminar.value = null
+
   mostrarConfirmacion.value = false
 }
 
 /*
 |--------------------------------------------------------------------------
-| ESTADO DE PAGO
+| ESTADO DEL PAGO
 |--------------------------------------------------------------------------
 */
 
 function manejarEstadoPago(valor) {
 
   if (valor !== 'Abono') {
+
     servicioActual.value.valorAbono = 0
+
   }
 }
 
 /*
 |--------------------------------------------------------------------------
-| CONTADORES
+| CONTADOR PENDIENTES
 |--------------------------------------------------------------------------
 */
 
 function contarPendientes() {
 
   return servicios.value.filter(
-    servicio => servicio.estadoEquipo !== 'Entregado'
+    servicio =>
+      servicio.estadoEquipo !==
+      'Entregado'
   ).length
 }
+
+/*
+|--------------------------------------------------------------------------
+| CONTADOR PAGADOS
+|--------------------------------------------------------------------------
+*/
 
 function contarPagados() {
 
   return servicios.value.filter(
-    servicio => servicio.estadoPago === 'Pagado'
+    servicio =>
+      servicio.estadoPago ===
+      'Pagado'
   ).length
 }
 
@@ -1172,10 +1534,13 @@ function formatearPrecio(precio) {
     precio === undefined ||
     precio === ''
   ) {
+
     return '0'
+
   }
 
-  return Number(precio).toLocaleString('es-CO')
+  return Number(precio)
+    .toLocaleString('es-CO')
 }
 
 /*
@@ -1190,24 +1555,38 @@ function formatearFecha(fecha) {
     return ''
   }
 
-  const fechaObjeto = new Date(fecha)
+  const fechaObjeto =
+    new Date(fecha)
 
-  if (Number.isNaN(fechaObjeto.getTime())) {
+  if (
+    Number.isNaN(
+      fechaObjeto.getTime()
+    )
+  ) {
+
     return fecha
+
   }
 
-  return fechaObjeto.toLocaleString('es-CO', {
-    dateStyle: 'short',
-    timeStyle: 'short'
-  })
+  return fechaObjeto.toLocaleString(
+    'es-CO',
+    {
+      dateStyle: 'short',
+      timeStyle: 'short'
+    }
+  )
 }
+
 </script>
 
 <style>
+
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* TARJETAS DEL RESUMEN */
 
 .dashboard-card {
   border-radius: 14px;
@@ -1218,6 +1597,8 @@ body {
   transform: translateY(-2px);
 }
 
+/* TARJETAS DE SERVICIOS */
+
 .service-card {
   border-radius: 16px;
   overflow: hidden;
@@ -1227,8 +1608,12 @@ body {
 
 .service-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 5px 18px
+    rgba(0, 0, 0, 0.12);
 }
+
+/* COLORES SEGÚN PAGO */
 
 .payment-pending {
   border-left-color: #f44336;
@@ -1242,6 +1627,8 @@ body {
   border-left-color: #21ba45;
 }
 
+/* INFORMACIÓN */
+
 .info-label {
   color: #757575;
   font-size: 15px;
@@ -1253,11 +1640,30 @@ body {
   font-size: 16px;
 }
 
+/* OBSERVACIONES */
+
 .observation-box {
   background: #f5f5f5;
   border-radius: 10px;
   padding: 14px;
 }
+
+/* CALIFICACIÓN */
+
+.rating-box {
+  background: #fff8e1;
+  border-radius: 10px;
+  padding: 14px;
+  border: 1px solid #ffe082;
+}
+
+/* CAMBIO DE ESTADO */
+
+.status-section {
+  background: #fafafa;
+}
+
+/* FORMULARIO */
 
 .form-card {
   width: 650px;
@@ -1265,11 +1671,15 @@ body {
   border-radius: 15px;
 }
 
+/* CONFIRMACIÓN */
+
 .confirm-card {
   width: 450px;
   max-width: 95vw;
   border-radius: 15px;
 }
+
+/* CAMPOS */
 
 .q-field__label,
 .q-field__native,
@@ -1277,9 +1687,13 @@ body {
   font-size: 16px;
 }
 
+/* BOTONES */
+
 .q-btn {
   font-size: 15px;
 }
+
+/* MÓVIL */
 
 @media (max-width: 600px) {
 
@@ -1296,5 +1710,11 @@ body {
   .q-toolbar .q-btn .q-btn__content {
     font-size: 14px;
   }
+
+  .status-section .q-btn {
+    width: 100%;
+  }
+
 }
+
 </style>
