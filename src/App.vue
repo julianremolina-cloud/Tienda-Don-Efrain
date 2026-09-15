@@ -16,6 +16,7 @@
           </div>
         </q-toolbar-title>
 
+        <!-- ÚNICO BOTÓN PARA CREAR PEDIDO -->
         <q-btn
           color="white"
           text-color="primary"
@@ -26,6 +27,7 @@
 
       </q-toolbar>
     </q-header>
+
 
     <!-- CONTENIDO -->
     <q-page-container>
@@ -50,6 +52,7 @@
             </q-card>
           </div>
 
+
           <div class="col-12 col-sm-4">
             <q-card class="dashboard-card bg-orange-1">
               <q-card-section>
@@ -65,6 +68,7 @@
               </q-card-section>
             </q-card>
           </div>
+
 
           <div class="col-12 col-sm-4">
             <q-card class="dashboard-card bg-green-1">
@@ -84,12 +88,13 @@
 
         </div>
 
+
         <!-- TITULO -->
         <div class="row items-center justify-between q-mb-md">
 
           <div>
             <div class="text-h5 text-weight-bold text-grey-9">
-              Servicios registrados
+              Pedidos registrados
             </div>
 
             <div class="text-body1 text-grey-7">
@@ -97,14 +102,8 @@
             </div>
           </div>
 
-          <q-btn
-            color="primary"
-            icon="add"
-            label="Registrar servicio"
-            @click="nuevoServicio"
-          />
-
         </div>
+
 
         <!-- SIN SERVICIOS -->
         <q-card
@@ -119,29 +118,25 @@
           />
 
           <div class="text-h6 q-mt-md text-grey-7">
-            No hay servicios registrados
+            No hay pedidos registrados
           </div>
 
           <div class="text-body1 text-grey-6 q-mb-md">
             Registra el primer equipo del taller.
           </div>
 
-          <q-btn
-            color="primary"
-            icon="add"
-            label="Nuevo servicio"
-            @click="nuevoServicio"
-          />
 
         </q-card>
+
 
         <!-- LISTA DE SERVICIOS -->
         <div
           v-for="servicio in servicios"
           :key="servicio.id"
-          class="q-mb-md"
+          class="q-mb-sm"
         >
 
+          <!-- TARJETA MÁS PEQUEÑA -->
           <q-card
             class="service-card"
             :class="{
@@ -152,30 +147,30 @@
           >
 
             <!-- CABECERA -->
-            <q-card-section>
+            <q-card-section class="q-py-sm">
 
-              <div class="row items-start justify-between">
+              <div class="row items-center justify-between">
 
                 <div class="row items-center">
 
                   <q-avatar
                     color="primary"
                     text-color="white"
-                    size="55px"
+                    size="45px"
                   >
                     <q-icon
                       name="phone_android"
-                      size="30px"
+                      size="25px"
                     />
                   </q-avatar>
 
-                  <div class="q-ml-md">
+                  <div class="q-ml-sm">
 
-                    <div class="text-h6 text-weight-bold">
+                    <div class="text-subtitle1 text-weight-bold">
                       {{ servicio.marca }} {{ servicio.modelo }}
                     </div>
 
-                    <div class="text-body1 text-grey-7">
+                    <div class="text-body2 text-grey-7">
                       Cliente: {{ servicio.cliente }}
                     </div>
 
@@ -183,11 +178,12 @@
 
                 </div>
 
+
                 <!-- ESTADO DEL PAGO -->
                 <q-badge
                   v-if="servicio.estadoPago === 'Pagado'"
                   color="positive"
-                  class="q-pa-sm"
+                  class="q-pa-xs"
                 >
                   <q-icon
                     name="check_circle"
@@ -200,7 +196,7 @@
                   v-else-if="servicio.estadoPago === 'Abono'"
                   color="warning"
                   text-color="dark"
-                  class="q-pa-sm"
+                  class="q-pa-xs"
                 >
                   <q-icon
                     name="payments"
@@ -212,7 +208,7 @@
                 <q-badge
                   v-else
                   color="negative"
-                  class="q-pa-sm"
+                  class="q-pa-xs"
                 >
                   <q-icon
                     name="warning"
@@ -225,15 +221,17 @@
 
             </q-card-section>
 
+
             <q-separator />
 
-            <!-- INFORMACIÓN -->
-            <q-card-section>
 
-              <div class="row q-col-gutter-md">
+            <!-- INFORMACIÓN -->
+            <q-card-section class="q-py-sm">
+
+              <div class="row q-col-gutter-sm">
 
                 <!-- MARCA -->
-                <div class="col-12 col-sm-6 col-md-4">
+                <div class="col-6 col-md-3">
 
                   <div class="info-label">
                     Marca
@@ -245,8 +243,9 @@
 
                 </div>
 
+
                 <!-- MODELO -->
-                <div class="col-12 col-sm-6 col-md-4">
+                <div class="col-6 col-md-3">
 
                   <div class="info-label">
                     Modelo
@@ -258,11 +257,12 @@
 
                 </div>
 
+
                 <!-- ARREGLOS -->
-                <div class="col-12 col-sm-6 col-md-4">
+                <div class="col-12 col-md-6">
 
                   <div class="info-label">
-                    Arreglos por hacer
+                    Arreglos
                   </div>
 
                   <div class="info-value">
@@ -273,6 +273,7 @@
                       color="primary"
                       text-color="white"
                       dense
+                      size="sm"
                     >
                       {{ arreglo }}
                     </q-chip>
@@ -281,8 +282,9 @@
 
                 </div>
 
+
                 <!-- TÉCNICO -->
-                <div class="col-12 col-sm-6 col-md-4">
+                <div class="col-6 col-md-3">
 
                   <div class="info-label">
                     Técnico
@@ -293,6 +295,7 @@
                     <q-icon
                       name="engineering"
                       color="primary"
+                      size="18px"
                       class="q-mr-xs"
                     />
 
@@ -302,8 +305,9 @@
 
                 </div>
 
+
                 <!-- FECHA -->
-                <div class="col-12 col-sm-6 col-md-4">
+                <div class="col-6 col-md-3">
 
                   <div class="info-label">
                     Recepción
@@ -314,6 +318,7 @@
                     <q-icon
                       name="event"
                       color="primary"
+                      size="18px"
                       class="q-mr-xs"
                     />
 
@@ -323,8 +328,9 @@
 
                 </div>
 
+
                 <!-- PRECIO -->
-                <div class="col-12 col-sm-6 col-md-4">
+                <div class="col-6 col-md-3">
 
                   <div class="info-label">
                     Precio
@@ -336,8 +342,9 @@
 
                 </div>
 
+
                 <!-- MÉTODO DE PAGO -->
-                <div class="col-12 col-sm-6 col-md-4">
+                <div class="col-6 col-md-3">
 
                   <div class="info-label">
                     Método de pago
@@ -349,8 +356,9 @@
 
                 </div>
 
+
                 <!-- ESTADO DEL PAGO -->
-                <div class="col-12 col-sm-6 col-md-4">
+                <div class="col-6 col-md-3">
 
                   <div class="info-label">
                     Estado del pago
@@ -370,8 +378,9 @@
 
                 </div>
 
+
                 <!-- ESTADO DEL EQUIPO -->
-                <div class="col-12 col-sm-6 col-md-4">
+                <div class="col-12 col-md-3">
 
                   <div class="info-label">
                     Estado del equipo
@@ -384,6 +393,7 @@
                       color="blue"
                       text-color="white"
                       icon="move_to_inbox"
+                      dense
                     >
                       Recibido
                     </q-chip>
@@ -393,6 +403,7 @@
                       color="orange"
                       text-color="white"
                       icon="build"
+                      dense
                     >
                       En reparación
                     </q-chip>
@@ -402,6 +413,7 @@
                       color="purple"
                       text-color="white"
                       icon="inventory_2"
+                      dense
                     >
                       Listo para entregar
                     </q-chip>
@@ -411,6 +423,7 @@
                       color="positive"
                       text-color="white"
                       icon="check_circle"
+                      dense
                     >
                       Entregado
                     </q-chip>
@@ -421,56 +434,77 @@
 
               </div>
 
+
               <!-- CALIFICACIÓN -->
               <div
                 v-if="servicio.estadoEquipo === 'Entregado'"
-                class="q-mt-md rating-box"
+                class="q-mt-sm rating-box"
               >
 
-                <div class="info-label">
-                  ⭐ Calificación del cliente
-                </div>
+                <div class="row items-center justify-between">
 
-                <div
-                  v-if="servicio.calificacion > 0"
-                  class="row items-center"
-                >
+                  <div>
 
-                  <q-rating
-                    :model-value="servicio.calificacion"
-                    readonly
-                    size="30px"
-                    color="orange"
-                    icon="star_border"
-                    icon-selected="star"
+                    <div class="info-label">
+                      ⭐ Calificación del cliente
+                    </div>
+
+                    <div
+                      v-if="servicio.calificacion > 0"
+                      class="row items-center"
+                    >
+
+                      <q-rating
+                        :model-value="servicio.calificacion"
+                        readonly
+                        size="27px"
+                        color="orange"
+                        icon="star_border"
+                        icon-selected="star"
+                      />
+
+                      <span class="q-ml-sm text-body2 text-grey-7">
+                        {{ servicio.calificacion }}/5
+                      </span>
+
+                    </div>
+
+                    <div
+                      v-else
+                      class="text-grey-6"
+                    >
+                      Sin calificación
+                    </div>
+
+                  </div>
+
+
+                  <!-- BOTÓN PARA EDITAR CALIFICACIÓN -->
+                  <q-btn
+                    flat
+                    dense
+                    color="orange-9"
+                    icon="star"
+                    label="Editar calificación"
+                    @click="editarCalificacion(servicio)"
                   />
 
-                  <span class="q-ml-sm text-body2 text-grey-7">
-                    {{ servicio.calificacion }} de 5 estrellas
-                  </span>
-
-                </div>
-
-                <div
-                  v-else
-                  class="text-grey-6"
-                >
-                  Sin calificación todavía
                 </div>
 
               </div>
 
+
               <!-- OBSERVACIONES -->
               <div
                 v-if="servicio.observaciones"
-                class="q-mt-md observation-box"
+                class="q-mt-sm observation-box"
               >
 
                 <div class="info-label">
                   Observaciones
                 </div>
 
-                <div class="text-body1">
+                <div class="text-body2">
                   {{ servicio.observaciones }}
                 </div>
 
@@ -478,73 +512,85 @@
 
             </q-card-section>
 
-            <q-separator />
 
             <!-- CAMBIO DE ESTADO -->
-            <q-card-section
+            <template
               v-if="servicio.estadoEquipo !== 'Entregado'"
-              class="status-section"
             >
 
-              <div class="text-body1 text-weight-medium q-mb-sm">
-                Cambiar estado del equipo
-              </div>
+              <q-separator />
 
-              <div class="row q-gutter-sm">
+              <q-card-section class="status-section q-py-sm">
 
-                <q-btn
-                  outline
-                  color="blue"
-                  icon="move_to_inbox"
-                  label="Recibido"
-                  :disable="servicio.estadoEquipo === 'Recibido'"
-                  @click="cambiarEstadoEquipo(servicio, 'Recibido')"
-                />
+                <div class="text-body2 text-weight-medium q-mb-xs">
+                  Cambiar estado del equipo
+                </div>
 
-                <q-btn
-                  outline
-                  color="orange"
-                  icon="build"
-                  label="En reparación"
-                  :disable="servicio.estadoEquipo === 'En reparación'"
-                  @click="cambiarEstadoEquipo(servicio, 'En reparación')"
-                />
+                <div class="row q-gutter-xs">
 
-                <q-btn
-                  outline
-                  color="purple"
-                  icon="inventory_2"
-                  label="Listo para entregar"
-                  :disable="servicio.estadoEquipo === 'Listo para entregar'"
-                  @click="cambiarEstadoEquipo(servicio, 'Listo para entregar')"
-                />
+                  <q-btn
+                    outline
+                    dense
+                    color="blue"
+                    icon="move_to_inbox"
+                    label="Recibido"
+                    :disable="servicio.estadoEquipo === 'Recibido'"
+                    @click="cambiarEstadoEquipo(servicio, 'Recibido')"
+                  />
 
-                <q-btn
-                  outline
-                  color="positive"
-                  icon="check_circle"
-                  label="Entregado"
-                  @click="cambiarEstadoEquipo(servicio, 'Entregado')"
-                />
+                  <q-btn
+                    outline
+                    dense
+                    color="orange"
+                    icon="build"
+                    label="En reparación"
+                    :disable="servicio.estadoEquipo === 'En reparación'"
+                    @click="cambiarEstadoEquipo(servicio, 'En reparación')"
+                  />
 
-              </div>
+                  <q-btn
+                    outline
+                    dense
+                    color="purple"
+                    icon="inventory_2"
+                    label="Listo para entregar"
+                    :disable="servicio.estadoEquipo === 'Listo para entregar'"
+                    @click="cambiarEstadoEquipo(servicio, 'Listo para entregar')"
+                  />
 
-            </q-card-section>
+                  <q-btn
+                    outline
+                    dense
+                    color="positive"
+                    icon="check_circle"
+                    label="Entregado"
+                    @click="cambiarEstadoEquipo(servicio, 'Entregado')"
+                  />
 
-            <q-separator
-              v-if="servicio.estadoEquipo !== 'Entregado'"
-            />
+                </div>
+
+              </q-card-section>
+
+            </template>
+
+
+            <q-separator />
+
 
             <!-- BOTONES -->
-            <q-card-actions align="right">
+            <q-card-actions
+              align="right"
+              class="q-py-xs"
+            >
 
-              <!-- NO EDITAR ENTREGADOS -->
+              <!-- PEDIDOS NO ENTREGADOS -->
               <template
                 v-if="servicio.estadoEquipo !== 'Entregado'"
               >
 
                 <q-btn
                   flat
+                  dense
                   color="primary"
                   icon="edit"
                   label="Editar"
@@ -553,6 +599,7 @@
 
                 <q-btn
                   flat
+                  dense
                   color="negative"
                   icon="delete"
                   label="Eliminar"
@@ -561,18 +608,21 @@
 
               </template>
 
+
+              <!-- PEDIDO ENTREGADO -->
               <q-badge
                 v-else
                 color="positive"
-                class="q-pa-sm"
+                class="q-pa-xs"
               >
 
                 <q-icon
                   name="lock"
+                  size="16px"
                   class="q-mr-xs"
                 />
 
-                Registro cerrado
+                Datos del pedido cerrados
 
               </q-badge>
 
@@ -585,12 +635,15 @@
       </q-page>
     </q-page-container>
 
+
+    <!-- ===================================================== -->
     <!-- MODAL FORMULARIO -->
+    <!-- ===================================================== -->
+
     <q-dialog v-model="mostrarModal">
 
       <q-card class="form-card">
 
-        <!-- TITULO -->
         <q-card-section class="bg-primary text-white">
 
           <div class="row items-center">
@@ -602,14 +655,14 @@
             />
 
             <div class="text-h6">
-              {{ modoEdicion ? 'Editar servicio' : 'Nuevo servicio' }}
+              {{ modoEdicion ? 'Editar pedido' : 'Nuevo pedido' }}
             </div>
 
           </div>
 
         </q-card-section>
 
-        <!-- FORMULARIO -->
+
         <q-form
           @submit.prevent="guardarServicio"
         >
@@ -634,6 +687,7 @@
 
             </q-input>
 
+
             <!-- MARCA -->
             <q-select
               v-model="servicioActual.marca"
@@ -654,6 +708,7 @@
 
             </q-select>
 
+
             <!-- MODELO -->
             <q-input
               v-model.trim="servicioActual.modelo"
@@ -672,6 +727,7 @@
               </template>
 
             </q-input>
+
 
             <!-- ARREGLOS -->
             <q-select
@@ -694,6 +750,7 @@
 
             </q-select>
 
+
             <!-- TÉCNICO -->
             <q-select
               v-model="servicioActual.tecnico"
@@ -710,6 +767,7 @@
               ]"
             />
 
+
             <!-- FECHA -->
             <q-input
               :model-value="formatearFecha(servicioActual.fecha)"
@@ -725,6 +783,7 @@
               </template>
 
             </q-input>
+
 
             <!-- PRECIO -->
             <q-input
@@ -743,6 +802,7 @@
               ]"
             />
 
+
             <!-- MÉTODO DE PAGO -->
             <q-select
               v-model="servicioActual.metodoPago"
@@ -758,6 +818,7 @@
                 val => !!val || 'Selecciona el método de pago'
               ]"
             />
+
 
             <!-- ESTADO DEL PAGO -->
             <q-select
@@ -775,6 +836,7 @@
               ]"
               @update:model-value="manejarEstadoPago"
             />
+
 
             <!-- ABONO -->
             <q-input
@@ -803,6 +865,7 @@
 
             </q-input>
 
+
             <!-- ESTADO DEL EQUIPO -->
             <q-select
               v-model="servicioActual.estadoEquipo"
@@ -824,44 +887,8 @@
                 <q-icon name="inventory_2" />
               </template>
 
-              <template v-slot:option="scope">
-
-                <q-item v-bind="scope.itemProps">
-
-                  <q-item-section avatar>
-
-                    <q-icon
-                      :name="
-                        scope.opt === 'Recibido'
-                          ? 'move_to_inbox'
-                          : scope.opt === 'En reparación'
-                            ? 'build'
-                            : scope.opt === 'Listo para entregar'
-                              ? 'inventory_2'
-                              : 'check_circle'
-                      "
-                      :color="
-                        scope.opt === 'Recibido'
-                          ? 'blue'
-                          : scope.opt === 'En reparación'
-                            ? 'orange'
-                            : scope.opt === 'Listo para entregar'
-                              ? 'purple'
-                              : 'positive'
-                      "
-                    />
-
-                  </q-item-section>
-
-                  <q-item-section>
-                    {{ scope.opt }}
-                  </q-item-section>
-
-                </q-item>
-
-              </template>
-
             </q-select>
+
 
             <!-- CALIFICACIÓN -->
             <div
@@ -896,6 +923,7 @@
 
             </div>
 
+
             <!-- OBSERVACIONES -->
             <q-input
               v-model.trim="servicioActual.observaciones"
@@ -908,6 +936,7 @@
             />
 
           </q-card-section>
+
 
           <!-- BOTONES -->
           <q-card-actions
@@ -937,7 +966,101 @@
 
     </q-dialog>
 
+
+    <!-- ===================================================== -->
+    <!-- MODAL SOLO PARA CALIFICACIÓN -->
+    <!-- ===================================================== -->
+
+    <q-dialog v-model="mostrarModalCalificacion">
+
+      <q-card class="rating-dialog">
+
+        <q-card-section class="bg-orange text-white">
+
+          <div class="row items-center">
+
+            <q-icon
+              name="star"
+              size="30px"
+              class="q-mr-sm"
+            />
+
+            <div class="text-h6">
+              Calificación del cliente
+            </div>
+
+          </div>
+
+        </q-card-section>
+
+
+        <q-card-section class="text-center">
+
+          <div class="text-subtitle1 text-grey-8 q-mb-md">
+            {{ servicioCalificacion?.cliente }}
+          </div>
+
+          <div class="text-body1 q-mb-md">
+            ¿Cómo califica el servicio?
+          </div>
+
+
+          <q-rating
+            v-model="calificacionTemporal"
+            size="55px"
+            color="orange"
+            icon="star_border"
+            icon-selected="star"
+            icon-half="star_half"
+          />
+
+
+          <div class="text-h6 text-orange-9 q-mt-md">
+
+            <span v-if="calificacionTemporal > 0">
+              {{ calificacionTemporal }} de 5 estrellas
+            </span>
+
+            <span v-else>
+              Seleccione una calificación
+            </span>
+
+          </div>
+
+        </q-card-section>
+
+
+        <q-card-actions
+          align="right"
+          class="q-pa-md"
+        >
+
+          <q-btn
+            flat
+            label="Cancelar"
+            color="grey-7"
+            @click="mostrarModalCalificacion = false"
+          />
+
+          <q-btn
+            color="orange"
+            icon="save"
+            label="Guardar calificación"
+            :disable="calificacionTemporal < 1"
+            @click="guardarCalificacion"
+          />
+
+        </q-card-actions>
+
+      </q-card>
+
+    </q-dialog>
+
+
+    <!-- ===================================================== -->
     <!-- CONFIRMACIÓN DE ELIMINACIÓN -->
+    <!-- ===================================================== -->
+
     <q-dialog v-model="mostrarConfirmacion">
 
       <q-card class="confirm-card">
@@ -955,11 +1078,11 @@
             <div class="q-ml-md">
 
               <div class="text-h6">
-                Eliminar servicio
+                Eliminar pedido
               </div>
 
               <div class="text-body1 text-grey-7">
-                ¿Está seguro de eliminar este servicio?
+                ¿Está seguro de eliminar este pedido?
               </div>
 
             </div>
@@ -967,6 +1090,7 @@
           </div>
 
         </q-card-section>
+
 
         <q-card-actions align="right">
 
@@ -993,10 +1117,12 @@
   </q-layout>
 </template>
 
+
 <script setup>
 
 import { ref } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
+
 
 /*
 |--------------------------------------------------------------------------
@@ -1009,6 +1135,7 @@ const servicios = useLocalStorage(
   []
 )
 
+
 /*
 |--------------------------------------------------------------------------
 | VARIABLES
@@ -1017,9 +1144,19 @@ const servicios = useLocalStorage(
 
 const mostrarModal = ref(false)
 const modoEdicion = ref(false)
+
 const mostrarConfirmacion = ref(false)
 
 const servicioAEliminar = ref(null)
+
+
+// VARIABLES PARA CALIFICACIÓN
+const mostrarModalCalificacion = ref(false)
+
+const servicioCalificacion = ref(null)
+
+const calificacionTemporal = ref(0)
+
 
 /*
 |--------------------------------------------------------------------------
@@ -1043,6 +1180,7 @@ const marcas = [
   { label: 'Otra', value: 'Otra' }
 ]
 
+
 const opcionesArreglos = [
   'Cambio de pantalla',
   'Cambio de batería',
@@ -1058,6 +1196,7 @@ const opcionesArreglos = [
   'Otros'
 ]
 
+
 /*
 |--------------------------------------------------------------------------
 | SERVICIO ACTUAL
@@ -1067,6 +1206,7 @@ const opcionesArreglos = [
 const servicioActual = ref(
   crearServicioVacio()
 )
+
 
 /*
 |--------------------------------------------------------------------------
@@ -1100,16 +1240,15 @@ function crearServicioVacio() {
 
     valorAbono: null,
 
-    // Estado inicial
     estadoEquipo: 'Recibido',
 
-    // Calificación de 0 a 5
     calificacion: 0,
 
     observaciones: ''
 
   }
 }
+
 
 /*
 |--------------------------------------------------------------------------
@@ -1121,30 +1260,36 @@ function obtenerFechaActual() {
 
   const ahora = new Date()
 
-  const anio = ahora.getFullYear()
+  const anio =
+    ahora.getFullYear()
 
-  const mes = String(
-    ahora.getMonth() + 1
-  ).padStart(2, '0')
+  const mes =
+    String(
+      ahora.getMonth() + 1
+    ).padStart(2, '0')
 
-  const dia = String(
-    ahora.getDate()
-  ).padStart(2, '0')
+  const dia =
+    String(
+      ahora.getDate()
+    ).padStart(2, '0')
 
-  const hora = String(
-    ahora.getHours()
-  ).padStart(2, '0')
+  const hora =
+    String(
+      ahora.getHours()
+    ).padStart(2, '0')
 
-  const minutos = String(
-    ahora.getMinutes()
-  ).padStart(2, '0')
+  const minutos =
+    String(
+      ahora.getMinutes()
+    ).padStart(2, '0')
 
   return `${anio}-${mes}-${dia}T${hora}:${minutos}`
 }
 
+
 /*
 |--------------------------------------------------------------------------
-| NUEVO SERVICIO
+| NUEVO PEDIDO
 |--------------------------------------------------------------------------
 */
 
@@ -1152,13 +1297,15 @@ function nuevoServicio() {
 
   modoEdicion.value = false
 
-  servicioActual.value = crearServicioVacio()
+  servicioActual.value =
+    crearServicioVacio()
 
   servicioActual.value.fecha =
     obtenerFechaActual()
 
   mostrarModal.value = true
 }
+
 
 /*
 |--------------------------------------------------------------------------
@@ -1180,6 +1327,7 @@ function guardarServicio() {
 
   mostrarModal.value = false
 }
+
 
 /*
 |--------------------------------------------------------------------------
@@ -1212,7 +1360,9 @@ function agregarServicio() {
       servicioActual.value.fecha,
 
     precio:
-      Number(servicioActual.value.precio),
+      Number(
+        servicioActual.value.precio
+      ),
 
     metodoPago:
       servicioActual.value.metodoPago,
@@ -1222,15 +1372,20 @@ function agregarServicio() {
 
     valorAbono:
       servicioActual.value.estadoPago === 'Abono'
-        ? Number(servicioActual.value.valorAbono)
+        ? Number(
+            servicioActual.value.valorAbono
+          )
         : 0,
 
     estadoEquipo:
-      servicioActual.value.estadoEquipo || 'Recibido',
+      servicioActual.value.estadoEquipo ||
+      'Recibido',
 
     calificacion:
       servicioActual.value.estadoEquipo === 'Entregado'
-        ? Number(servicioActual.value.calificacion)
+        ? Number(
+            servicioActual.value.calificacion
+          )
         : 0,
 
     observaciones:
@@ -1238,18 +1393,25 @@ function agregarServicio() {
 
   }
 
-  servicios.value.push(nuevoServicio)
+  servicios.value.push(
+    nuevoServicio
+  )
 }
+
 
 /*
 |--------------------------------------------------------------------------
-| CARGAR SERVICIO
+| CARGAR PEDIDO PARA EDITAR
 |--------------------------------------------------------------------------
 */
 
 function cargarServicio(servicio) {
 
-  // Un entregado está cerrado
+  // IMPORTANTE:
+  // Un pedido entregado no se puede editar
+  // desde el formulario general.
+  // Su calificación se modifica aparte.
+
   if (
     servicio.estadoEquipo === 'Entregado'
   ) {
@@ -1260,36 +1422,48 @@ function cargarServicio(servicio) {
 
   servicioActual.value = {
 
-    id: servicio.id,
+    id:
+      servicio.id,
 
-    cliente: servicio.cliente,
+    cliente:
+      servicio.cliente,
 
-    marca: servicio.marca,
+    marca:
+      servicio.marca,
 
-    modelo: servicio.modelo,
+    modelo:
+      servicio.modelo,
 
     arreglos:
-      Array.isArray(servicio.arreglos)
+      Array.isArray(
+        servicio.arreglos
+      )
         ? [...servicio.arreglos]
         : servicio.reparacion
           ? [servicio.reparacion]
           : [],
 
-    tecnico: servicio.tecnico,
+    tecnico:
+      servicio.tecnico,
 
-    fecha: servicio.fecha,
+    fecha:
+      servicio.fecha,
 
-    precio: servicio.precio,
+    precio:
+      servicio.precio,
 
-    metodoPago: servicio.metodoPago,
+    metodoPago:
+      servicio.metodoPago,
 
-    estadoPago: servicio.estadoPago,
+    estadoPago:
+      servicio.estadoPago,
 
     valorAbono:
       servicio.valorAbono || 0,
 
     estadoEquipo:
-      servicio.estadoEquipo || 'Recibido',
+      servicio.estadoEquipo ||
+      'Recibido',
 
     calificacion:
       servicio.calificacion || 0,
@@ -1302,9 +1476,10 @@ function cargarServicio(servicio) {
   mostrarModal.value = true
 }
 
+
 /*
 |--------------------------------------------------------------------------
-| EDITAR
+| EDITAR PEDIDO
 |--------------------------------------------------------------------------
 */
 
@@ -1321,7 +1496,8 @@ function editarServicio() {
     return
   }
 
-  // No editar entregados
+  // Los entregados no se modifican
+  // desde este formulario.
   if (
     servicios.value[indice].estadoEquipo ===
     'Entregado'
@@ -1353,7 +1529,9 @@ function editarServicio() {
       servicioActual.value.fecha,
 
     precio:
-      Number(servicioActual.value.precio),
+      Number(
+        servicioActual.value.precio
+      ),
 
     metodoPago:
       servicioActual.value.metodoPago,
@@ -1363,7 +1541,9 @@ function editarServicio() {
 
     valorAbono:
       servicioActual.value.estadoPago === 'Abono'
-        ? Number(servicioActual.value.valorAbono)
+        ? Number(
+            servicioActual.value.valorAbono
+          )
         : 0,
 
     estadoEquipo:
@@ -1371,7 +1551,9 @@ function editarServicio() {
 
     calificacion:
       servicioActual.value.estadoEquipo === 'Entregado'
-        ? Number(servicioActual.value.calificacion)
+        ? Number(
+            servicioActual.value.calificacion
+          )
         : 0,
 
     observaciones:
@@ -1379,6 +1561,7 @@ function editarServicio() {
 
   }
 }
+
 
 /*
 |--------------------------------------------------------------------------
@@ -1391,21 +1574,91 @@ function cambiarEstadoEquipo(
   nuevoEstado
 ) {
 
-  // Si ya está entregado, no se puede modificar
   if (
     servicio.estadoEquipo === 'Entregado'
   ) {
     return
   }
 
-  servicio.estadoEquipo = nuevoEstado
+  servicio.estadoEquipo =
+    nuevoEstado
 
-  // Si vuelve a un estado diferente de entregado,
-  // eliminamos la calificación.
-  if (nuevoEstado !== 'Entregado') {
+  // Si deja de estar entregado,
+  // se elimina la calificación.
+  if (
+    nuevoEstado !== 'Entregado'
+  ) {
+
     servicio.calificacion = 0
+
   }
 }
+
+
+/*
+|--------------------------------------------------------------------------
+| EDITAR CALIFICACIÓN
+|--------------------------------------------------------------------------
+*/
+
+function editarCalificacion(
+  servicio
+) {
+
+  if (
+    servicio.estadoEquipo !== 'Entregado'
+  ) {
+    return
+  }
+
+  servicioCalificacion.value =
+    servicio
+
+  calificacionTemporal.value =
+    Number(
+      servicio.calificacion || 0
+    )
+
+  mostrarModalCalificacion.value =
+    true
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| GUARDAR CALIFICACIÓN
+|--------------------------------------------------------------------------
+*/
+
+function guardarCalificacion() {
+
+  if (
+    !servicioCalificacion.value
+  ) {
+    return
+  }
+
+  if (
+    calificacionTemporal.value < 1
+  ) {
+    return
+  }
+
+  servicioCalificacion.value.calificacion =
+    Number(
+      calificacionTemporal.value
+    )
+
+  mostrarModalCalificacion.value =
+    false
+
+  servicioCalificacion.value =
+    null
+
+  calificacionTemporal.value =
+    0
+}
+
 
 /*
 |--------------------------------------------------------------------------
@@ -1424,17 +1677,20 @@ function confirmarEliminar(id) {
     return
   }
 
-  // No eliminar entregados
   if (
-    servicio.estadoEquipo === 'Entregado'
+    servicio.estadoEquipo ===
+    'Entregado'
   ) {
     return
   }
 
-  servicioAEliminar.value = id
+  servicioAEliminar.value =
+    id
 
-  mostrarConfirmacion.value = true
+  mostrarConfirmacion.value =
+    true
 }
+
 
 /*
 |--------------------------------------------------------------------------
@@ -1444,7 +1700,9 @@ function confirmarEliminar(id) {
 
 function eliminarServicio() {
 
-  if (!servicioAEliminar.value) {
+  if (
+    !servicioAEliminar.value
+  ) {
     return
   }
 
@@ -1471,10 +1729,13 @@ function eliminarServicio() {
 
   }
 
-  servicioAEliminar.value = null
+  servicioAEliminar.value =
+    null
 
-  mostrarConfirmacion.value = false
+  mostrarConfirmacion.value =
+    false
 }
+
 
 /*
 |--------------------------------------------------------------------------
@@ -1482,14 +1743,18 @@ function eliminarServicio() {
 |--------------------------------------------------------------------------
 */
 
-function manejarEstadoPago(valor) {
+function manejarEstadoPago(
+  valor
+) {
 
   if (valor !== 'Abono') {
 
-    servicioActual.value.valorAbono = 0
+    servicioActual.value.valorAbono =
+      0
 
   }
 }
+
 
 /*
 |--------------------------------------------------------------------------
@@ -1506,6 +1771,7 @@ function contarPendientes() {
   ).length
 }
 
+
 /*
 |--------------------------------------------------------------------------
 | CONTADOR PAGADOS
@@ -1521,13 +1787,16 @@ function contarPagados() {
   ).length
 }
 
+
 /*
 |--------------------------------------------------------------------------
 | FORMATO PRECIO
 |--------------------------------------------------------------------------
 */
 
-function formatearPrecio(precio) {
+function formatearPrecio(
+  precio
+) {
 
   if (
     precio === null ||
@@ -1539,9 +1808,13 @@ function formatearPrecio(precio) {
 
   }
 
-  return Number(precio)
-    .toLocaleString('es-CO')
+  return Number(
+    precio
+  ).toLocaleString(
+    'es-CO'
+  )
 }
+
 
 /*
 |--------------------------------------------------------------------------
@@ -1549,7 +1822,9 @@ function formatearPrecio(precio) {
 |--------------------------------------------------------------------------
 */
 
-function formatearFecha(fecha) {
+function formatearFecha(
+  fecha
+) {
 
   if (!fecha) {
     return ''
@@ -1579,17 +1854,24 @@ function formatearFecha(fecha) {
 
 </script>
 
+
 <style>
 
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
 }
 
-/* TARJETAS DEL RESUMEN */
+
+/* =========================================================
+   TARJETAS DEL RESUMEN
+========================================================= */
 
 .dashboard-card {
-  border-radius: 14px;
+  border-radius: 12px;
   transition: 0.2s;
 }
 
@@ -1597,122 +1879,275 @@ body {
   transform: translateY(-2px);
 }
 
-/* TARJETAS DE SERVICIOS */
+
+/* =========================================================
+   TARJETAS DE PEDIDOS
+========================================================= */
 
 .service-card {
-  border-radius: 16px;
+
+  border-radius: 12px;
+
   overflow: hidden;
-  border-left: 6px solid #1976d2;
+
+  border-left:
+    5px solid #1976d2;
+
   transition: 0.2s;
+
 }
 
 .service-card:hover {
-  transform: translateY(-2px);
+
+  transform:
+    translateY(-1px);
+
   box-shadow:
-    0 5px 18px
-    rgba(0, 0, 0, 0.12);
+    0 3px 12px
+    rgba(0, 0, 0, 0.10);
+
 }
 
-/* COLORES SEGÚN PAGO */
+
+/* =========================================================
+   COLORES SEGÚN PAGO
+========================================================= */
 
 .payment-pending {
-  border-left-color: #f44336;
+  border-left-color:
+    #f44336;
 }
 
 .payment-abono {
-  border-left-color: #ff9800;
+  border-left-color:
+    #ff9800;
 }
 
 .payment-paid {
-  border-left-color: #21ba45;
+  border-left-color:
+    #21ba45;
 }
 
-/* INFORMACIÓN */
+
+/* =========================================================
+   INFORMACIÓN
+========================================================= */
 
 .info-label {
-  color: #757575;
-  font-size: 15px;
-  margin-bottom: 5px;
+
+  color:
+    #757575;
+
+  font-size:
+    13px;
+
+  margin-bottom:
+    3px;
+
 }
 
 .info-value {
-  color: #333333;
-  font-size: 16px;
+
+  color:
+    #333333;
+
+  font-size:
+    14px;
+
 }
 
-/* OBSERVACIONES */
+
+/* =========================================================
+   OBSERVACIONES
+========================================================= */
 
 .observation-box {
-  background: #f5f5f5;
-  border-radius: 10px;
-  padding: 14px;
+
+  background:
+    #f5f5f5;
+
+  border-radius:
+    8px;
+
+  padding:
+    10px;
+
 }
 
-/* CALIFICACIÓN */
+
+/* =========================================================
+   CALIFICACIÓN
+========================================================= */
 
 .rating-box {
-  background: #fff8e1;
-  border-radius: 10px;
-  padding: 14px;
-  border: 1px solid #ffe082;
+
+  background:
+    #fff8e1;
+
+  border-radius:
+    8px;
+
+  padding:
+    10px;
+
+  border:
+    1px solid #ffe082;
+
 }
 
-/* CAMBIO DE ESTADO */
+
+/* =========================================================
+   CAMBIO DE ESTADO
+========================================================= */
 
 .status-section {
-  background: #fafafa;
+
+  background:
+    #fafafa;
+
 }
 
-/* FORMULARIO */
+
+/* =========================================================
+   FORMULARIO
+========================================================= */
 
 .form-card {
-  width: 650px;
-  max-width: 95vw;
-  border-radius: 15px;
+
+  width:
+    650px;
+
+  max-width:
+    95vw;
+
+  border-radius:
+    15px;
+
 }
 
-/* CONFIRMACIÓN */
+
+/* =========================================================
+   MODAL DE CALIFICACIÓN
+========================================================= */
+
+.rating-dialog {
+
+  width:
+    430px;
+
+  max-width:
+    95vw;
+
+  border-radius:
+    15px;
+
+}
+
+
+/* =========================================================
+   CONFIRMACIÓN
+========================================================= */
 
 .confirm-card {
-  width: 450px;
-  max-width: 95vw;
-  border-radius: 15px;
+
+  width:
+    450px;
+
+  max-width:
+    95vw;
+
+  border-radius:
+    15px;
+
 }
 
-/* CAMPOS */
+
+/* =========================================================
+   CAMPOS
+========================================================= */
 
 .q-field__label,
 .q-field__native,
 .q-field__input {
-  font-size: 16px;
+
+  font-size:
+    15px;
+
 }
 
-/* BOTONES */
+
+/* =========================================================
+   BOTONES
+========================================================= */
 
 .q-btn {
-  font-size: 15px;
+
+  font-size:
+    14px;
+
 }
 
-/* MÓVIL */
+
+/* =========================================================
+   MÓVIL
+========================================================= */
 
 @media (max-width: 600px) {
 
   .form-card {
-    width: 100%;
-    max-width: 100%;
+
+    width:
+      100%;
+
+    max-width:
+      100%;
+
   }
+
+
+  .rating-dialog {
+
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+  }
+
 
   .q-toolbar .q-btn {
-    padding-left: 8px;
-    padding-right: 8px;
+
+    padding-left:
+      8px;
+
+    padding-right:
+      8px;
+
   }
+
 
   .q-toolbar .q-btn .q-btn__content {
-    font-size: 14px;
+
+    font-size:
+      13px;
+
   }
 
+
   .status-section .q-btn {
-    width: 100%;
+
+    width:
+      100%;
+
+  }
+
+
+  .rating-box .q-btn {
+
+    font-size:
+      12px;
+
   }
 
 }
