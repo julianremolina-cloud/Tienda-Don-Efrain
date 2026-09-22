@@ -167,7 +167,7 @@
                   <div class="q-ml-sm">
 
                     <div class="text-subtitle1 text-weight-bold">
-                      {{ servicio.marca }} {{ servicio.modelo }}
+                      {{ obtenerMarca(servicio) }} {{ servicio.modelo }}
                     </div>
 
                     <div class="text-body2 text-grey-7">
@@ -238,7 +238,7 @@
                   </div>
 
                   <div class="info-value">
-                    {{ servicio.marca }}
+                    {{ obtenerMarca(servicio) }}
                   </div>
 
                 </div>
@@ -268,7 +268,7 @@
                   <div class="info-value">
 
                     <q-chip
-                      v-for="arreglo in servicio.arreglos"
+                      v-for="arreglo in obtenerArreglos(servicio)"
                       :key="arreglo"
                       color="primary"
                       text-color="white"
@@ -437,7 +437,7 @@
 
               <!-- CALIFICACIÓN -->
               <div
-                v-if="servicio.estadoEquipo === 'Entregado'"
+                v-if="servicio.estadoEquipo === 'Entregado' || Number(servicio.calificacion) > 0"
                 class="q-mt-sm rating-box"
               >
 
@@ -449,13 +449,14 @@
                       ⭐ Calificación del cliente
                     </div>
 
+                    <!-- CALIFICACIÓN REGISTRADA (SOLO LECTURA, SIN EDICIÓN) -->
                     <div
-                      v-if="servicio.calificacion > 0"
-                      class="row items-center"
+                      v-if="Number(servicio.calificacion) > 0"
+                      class="row items-center q-gutter-x-sm"
                     >
 
                       <q-rating
-                        :model-value="servicio.calificacion"
+                        :model-value="Number(servicio.calificacion)"
                         readonly
                         size="27px"
                         color="orange"
@@ -463,12 +464,24 @@
                         icon-selected="star"
                       />
 
-                      <span class="q-ml-sm text-body2 text-grey-7">
+                      <span class="text-body2 text-grey-7 text-weight-bold">
                         {{ servicio.calificacion }}/5
                       </span>
 
+                      <q-badge
+                        color="positive"
+                        class="q-pa-xs"
+                      >
+                        <q-icon
+                          name="check"
+                          class="q-mr-xs"
+                        />
+                        Calificación registrada
+                      </q-badge>
+
                     </div>
 
+                    <!-- SIN CALIFICACIÓN -->
                     <div
                       v-else
                       class="text-grey-6"
@@ -479,13 +492,14 @@
                   </div>
 
 
-                  <!-- BOTÓN PARA EDITAR CALIFICACIÓN -->
+                  <!-- BOTÓN PARA CALIFICAR (SOLO SI AÚN NO SE HA CALIFICADO Y ESTÁ ENTREGADO) -->
                   <q-btn
+                    v-if="servicio.estadoEquipo === 'Entregado' && (!servicio.calificacion || Number(servicio.calificacion) === 0)"
                     flat
                     dense
                     color="orange-9"
                     icon="star"
-                    label="Editar calificación"
+                    label="Calificar servicio"
                     @click="editarCalificacion(servicio)"
                   />
 
@@ -514,64 +528,59 @@
 
 
             <!-- CAMBIO DE ESTADO -->
-            <template
-              v-if="servicio.estadoEquipo !== 'Entregado'"
-            >
+            <q-separator />
 
-              <q-separator />
+            <q-card-section class="status-section q-py-sm">
 
-              <q-card-section class="status-section q-py-sm">
+              <div class="text-body2 text-weight-medium q-mb-xs">
+                Cambiar estado del equipo
+              </div>
 
-                <div class="text-body2 text-weight-medium q-mb-xs">
-                  Cambiar estado del equipo
-                </div>
+              <div class="row q-gutter-xs">
 
-                <div class="row q-gutter-xs">
+                <q-btn
+                  outline
+                  dense
+                  color="blue"
+                  icon="move_to_inbox"
+                  label="Recibido"
+                  :disable="servicio.estadoEquipo === 'Recibido'"
+                  @click="cambiarEstadoEquipo(servicio, 'Recibido')"
+                />
 
-                  <q-btn
-                    outline
-                    dense
-                    color="blue"
-                    icon="move_to_inbox"
-                    label="Recibido"
-                    :disable="servicio.estadoEquipo === 'Recibido'"
-                    @click="cambiarEstadoEquipo(servicio, 'Recibido')"
-                  />
+                <q-btn
+                  outline
+                  dense
+                  color="orange"
+                  icon="build"
+                  label="En reparación"
+                  :disable="servicio.estadoEquipo === 'En reparación'"
+                  @click="cambiarEstadoEquipo(servicio, 'En reparación')"
+                />
 
-                  <q-btn
-                    outline
-                    dense
-                    color="orange"
-                    icon="build"
-                    label="En reparación"
-                    :disable="servicio.estadoEquipo === 'En reparación'"
-                    @click="cambiarEstadoEquipo(servicio, 'En reparación')"
-                  />
+                <q-btn
+                  outline
+                  dense
+                  color="purple"
+                  icon="inventory_2"
+                  label="Listo para entregar"
+                  :disable="servicio.estadoEquipo === 'Listo para entregar'"
+                  @click="cambiarEstadoEquipo(servicio, 'Listo para entregar')"
+                />
 
-                  <q-btn
-                    outline
-                    dense
-                    color="purple"
-                    icon="inventory_2"
-                    label="Listo para entregar"
-                    :disable="servicio.estadoEquipo === 'Listo para entregar'"
-                    @click="cambiarEstadoEquipo(servicio, 'Listo para entregar')"
-                  />
+                <q-btn
+                  outline
+                  dense
+                  color="positive"
+                  icon="check_circle"
+                  label="Entregado"
+                  :disable="servicio.estadoEquipo === 'Entregado'"
+                  @click="cambiarEstadoEquipo(servicio, 'Entregado')"
+                />
 
-                  <q-btn
-                    outline
-                    dense
-                    color="positive"
-                    icon="check_circle"
-                    label="Entregado"
-                    @click="cambiarEstadoEquipo(servicio, 'Entregado')"
-                  />
+              </div>
 
-                </div>
-
-              </q-card-section>
-
-            </template>
+            </q-card-section>
 
 
             <q-separator />
@@ -700,6 +709,7 @@
               :rules="[
                 val => !!val || 'Selecciona la marca'
               ]"
+              @update:model-value="manejarCambioMarca"
             >
 
               <template v-slot:prepend>
@@ -707,6 +717,26 @@
               </template>
 
             </q-select>
+
+            <!-- MARCA PERSONALIZADA -->
+            <q-input
+              v-if="servicioActual.marca === 'Otra'"
+              v-model.trim="servicioActual.marcaPersonalizada"
+              label="Especifica la marca *"
+              placeholder="Escribe la marca que no aparece en la lista"
+              outlined
+              class="q-mb-md"
+              :rules="[
+                val => (servicioActual.marca === 'Otra' ? (!!val && val.trim().length > 0) : true)
+                  || 'Debes especificar la marca'
+              ]"
+            >
+
+              <template v-slot:prepend>
+                <q-icon name="edit" />
+              </template>
+
+            </q-input>
 
 
             <!-- MODELO -->
@@ -742,6 +772,7 @@
                 val => Array.isArray(val) && val.length > 0
                   || 'Selecciona al menos un arreglo'
               ]"
+              @update:model-value="manejarCambioArreglos"
             >
 
               <template v-slot:prepend>
@@ -749,6 +780,26 @@
               </template>
 
             </q-select>
+
+            <!-- ARREGLO PERSONALIZADO -->
+            <q-input
+              v-if="servicioActual.arreglos.includes('Otros')"
+              v-model.trim="servicioActual.arregloPersonalizado"
+              label="Especifica el otro arreglo *"
+              placeholder="Escribe qué reparación adicional necesita el equipo"
+              outlined
+              class="q-mb-md"
+              :rules="[
+                val => (servicioActual.arreglos.includes('Otros') ? (!!val && val.trim().length > 0) : true)
+                  || 'Debes especificar el otro arreglo'
+              ]"
+            >
+
+              <template v-slot:prepend>
+                <q-icon name="handyman" />
+              </template>
+
+            </q-input>
 
 
             <!-- TÉCNICO -->
@@ -867,61 +918,21 @@
 
 
             <!-- ESTADO DEL EQUIPO -->
-            <q-select
-              v-model="servicioActual.estadoEquipo"
-              label="Estado del equipo *"
+            <q-input
+              :model-value="modoEdicion ? servicioActual.estadoEquipo : 'Recibido'"
+              label="Estado del equipo"
               outlined
+              readonly
+              disable
               class="q-mb-md"
-              :options="[
-                'Recibido',
-                'En reparación',
-                'Listo para entregar',
-                'Entregado'
-              ]"
-              :rules="[
-                val => !!val || 'Selecciona el estado del equipo'
-              ]"
+              hint="El estado se gestiona desde la tarjeta del servicio una vez guardado"
             >
 
               <template v-slot:prepend>
                 <q-icon name="inventory_2" />
               </template>
 
-            </q-select>
-
-
-            <!-- CALIFICACIÓN -->
-            <div
-              v-if="servicioActual.estadoEquipo === 'Entregado'"
-              class="q-mb-md rating-box"
-            >
-
-              <div class="text-body1 text-weight-medium q-mb-sm">
-                ⭐ Calificación del cliente
-              </div>
-
-              <q-rating
-                v-model="servicioActual.calificacion"
-                size="42px"
-                color="orange"
-                icon="star_border"
-                icon-selected="star"
-                icon-half="star_half"
-              />
-
-              <div class="text-body2 text-grey-7 q-mt-sm">
-
-                <span v-if="servicioActual.calificacion > 0">
-                  {{ servicioActual.calificacion }} de 5 estrellas
-                </span>
-
-                <span v-else>
-                  Selecciona una calificación
-                </span>
-
-              </div>
-
-            </div>
+            </q-input>
 
 
             <!-- OBSERVACIONES -->
@@ -1011,7 +1022,6 @@
             color="orange"
             icon="star_border"
             icon-selected="star"
-            icon-half="star_half"
           />
 
 
@@ -1135,6 +1145,17 @@ const servicios = useLocalStorage(
   []
 )
 
+// COMPATIBILIDAD CON SERVICIOS EXISTENTES
+if (Array.isArray(servicios.value)) {
+  servicios.value = servicios.value.map(servicio => ({
+    ...servicio,
+    marcaPersonalizada: servicio.marcaPersonalizada || '',
+    arregloPersonalizado: servicio.arregloPersonalizado || '',
+    estadoEquipo: servicio.estadoEquipo || 'Recibido',
+    calificacion: Number(servicio.calificacion) || 0
+  }))
+}
+
 
 /*
 |--------------------------------------------------------------------------
@@ -1224,9 +1245,13 @@ function crearServicioVacio() {
 
     marca: '',
 
+    marcaPersonalizada: '',
+
     modelo: '',
 
     arreglos: [],
+
+    arregloPersonalizado: '',
 
     tecnico: '',
 
@@ -1247,6 +1272,45 @@ function crearServicioVacio() {
     observaciones: ''
 
   }
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MANEJADORES DE CAMPOS PERSONALIZADOS
+|--------------------------------------------------------------------------
+*/
+
+function manejarCambioMarca(valor) {
+  if (valor !== 'Otra') {
+    servicioActual.value.marcaPersonalizada = ''
+  }
+}
+
+function manejarCambioArreglos(valor) {
+  if (!Array.isArray(valor) || !valor.includes('Otros')) {
+    servicioActual.value.arregloPersonalizado = ''
+  }
+}
+
+function obtenerMarca(servicio) {
+  if (!servicio) return ''
+  if (servicio.marca === 'Otra' && servicio.marcaPersonalizada && servicio.marcaPersonalizada.trim()) {
+    return servicio.marcaPersonalizada.trim()
+  }
+  return servicio.marca || ''
+}
+
+function obtenerArreglos(servicio) {
+  if (!servicio || !Array.isArray(servicio.arreglos)) {
+    return []
+  }
+  return servicio.arreglos.map(arreglo => {
+    if (arreglo === 'Otros' && servicio.arregloPersonalizado && servicio.arregloPersonalizado.trim()) {
+      return servicio.arregloPersonalizado.trim()
+    }
+    return arreglo
+  })
 }
 
 
@@ -1303,6 +1367,9 @@ function nuevoServicio() {
   servicioActual.value.fecha =
     obtenerFechaActual()
 
+  servicioActual.value.estadoEquipo =
+    'Recibido'
+
   mostrarModal.value = true
 }
 
@@ -1315,11 +1382,73 @@ function nuevoServicio() {
 
 function guardarServicio() {
 
+  // Validaciones obligatorias de formulario
+  if (!servicioActual.value.cliente || servicioActual.value.cliente.trim().length < 3) {
+    return
+  }
+
+  if (!servicioActual.value.marca) {
+    return
+  }
+
+  if (
+    servicioActual.value.marca === 'Otra' &&
+    (!servicioActual.value.marcaPersonalizada || !servicioActual.value.marcaPersonalizada.trim())
+  ) {
+    return
+  }
+
+  if (!servicioActual.value.modelo || servicioActual.value.modelo.trim().length < 2) {
+    return
+  }
+
+  if (!Array.isArray(servicioActual.value.arreglos) || servicioActual.value.arreglos.length === 0) {
+    return
+  }
+
+  if (
+    servicioActual.value.arreglos.includes('Otros') &&
+    (!servicioActual.value.arregloPersonalizado || !servicioActual.value.arregloPersonalizado.trim())
+  ) {
+    return
+  }
+
+  if (!servicioActual.value.tecnico) {
+    return
+  }
+
+  if (
+    servicioActual.value.precio === null ||
+    servicioActual.value.precio === '' ||
+    Number(servicioActual.value.precio) < 0
+  ) {
+    return
+  }
+
+  if (!servicioActual.value.metodoPago || !servicioActual.value.estadoPago) {
+    return
+  }
+
+  if (
+    servicioActual.value.estadoPago === 'Abono' &&
+    (
+      !servicioActual.value.valorAbono ||
+      Number(servicioActual.value.valorAbono) <= 0 ||
+      Number(servicioActual.value.valorAbono) > Number(servicioActual.value.precio)
+    )
+  ) {
+    return
+  }
+
   if (modoEdicion.value) {
 
     editarServicio()
 
   } else {
+
+    // Garantizar que todo servicio nuevo inicie estrictamente en Recibido y sin calificación
+    servicioActual.value.estadoEquipo = 'Recibido'
+    servicioActual.value.calificacion = 0
 
     agregarServicio()
 
@@ -1342,16 +1471,26 @@ function agregarServicio() {
     id: Date.now(),
 
     cliente:
-      servicioActual.value.cliente,
+      servicioActual.value.cliente.trim(),
 
     marca:
       servicioActual.value.marca,
 
+    marcaPersonalizada:
+      servicioActual.value.marca === 'Otra'
+        ? (servicioActual.value.marcaPersonalizada ? servicioActual.value.marcaPersonalizada.trim() : '')
+        : '',
+
     modelo:
-      servicioActual.value.modelo,
+      servicioActual.value.modelo.trim(),
 
     arreglos:
       [...servicioActual.value.arreglos],
+
+    arregloPersonalizado:
+      servicioActual.value.arreglos.includes('Otros')
+        ? (servicioActual.value.arregloPersonalizado ? servicioActual.value.arregloPersonalizado.trim() : '')
+        : '',
 
     tecnico:
       servicioActual.value.tecnico,
@@ -1378,18 +1517,15 @@ function agregarServicio() {
         : 0,
 
     estadoEquipo:
-      servicioActual.value.estadoEquipo ||
       'Recibido',
 
     calificacion:
-      servicioActual.value.estadoEquipo === 'Entregado'
-        ? Number(
-            servicioActual.value.calificacion
-          )
-        : 0,
+      0,
 
     observaciones:
       servicioActual.value.observaciones
+        ? servicioActual.value.observaciones.trim()
+        : ''
 
   }
 
@@ -1410,7 +1546,7 @@ function cargarServicio(servicio) {
   // IMPORTANTE:
   // Un pedido entregado no se puede editar
   // desde el formulario general.
-  // Su calificación se modifica aparte.
+  // Su calificación se gestiona aparte.
 
   if (
     servicio.estadoEquipo === 'Entregado'
@@ -1426,13 +1562,16 @@ function cargarServicio(servicio) {
       servicio.id,
 
     cliente:
-      servicio.cliente,
+      servicio.cliente || '',
 
     marca:
-      servicio.marca,
+      servicio.marca || '',
+
+    marcaPersonalizada:
+      servicio.marcaPersonalizada || '',
 
     modelo:
-      servicio.modelo,
+      servicio.modelo || '',
 
     arreglos:
       Array.isArray(
@@ -1443,20 +1582,23 @@ function cargarServicio(servicio) {
           ? [servicio.reparacion]
           : [],
 
+    arregloPersonalizado:
+      servicio.arregloPersonalizado || '',
+
     tecnico:
-      servicio.tecnico,
+      servicio.tecnico || '',
 
     fecha:
-      servicio.fecha,
+      servicio.fecha || '',
 
     precio:
       servicio.precio,
 
     metodoPago:
-      servicio.metodoPago,
+      servicio.metodoPago || '',
 
     estadoPago:
-      servicio.estadoPago,
+      servicio.estadoPago || '',
 
     valorAbono:
       servicio.valorAbono || 0,
@@ -1466,7 +1608,7 @@ function cargarServicio(servicio) {
       'Recibido',
 
     calificacion:
-      servicio.calificacion || 0,
+      Number(servicio.calificacion) || 0,
 
     observaciones:
       servicio.observaciones || ''
@@ -1511,16 +1653,26 @@ function editarServicio() {
       servicioActual.value.id,
 
     cliente:
-      servicioActual.value.cliente,
+      servicioActual.value.cliente.trim(),
 
     marca:
       servicioActual.value.marca,
 
+    marcaPersonalizada:
+      servicioActual.value.marca === 'Otra'
+        ? (servicioActual.value.marcaPersonalizada ? servicioActual.value.marcaPersonalizada.trim() : '')
+        : '',
+
     modelo:
-      servicioActual.value.modelo,
+      servicioActual.value.modelo.trim(),
 
     arreglos:
       [...servicioActual.value.arreglos],
+
+    arregloPersonalizado:
+      servicioActual.value.arreglos.includes('Otros')
+        ? (servicioActual.value.arregloPersonalizado ? servicioActual.value.arregloPersonalizado.trim() : '')
+        : '',
 
     tecnico:
       servicioActual.value.tecnico,
@@ -1547,17 +1699,15 @@ function editarServicio() {
         : 0,
 
     estadoEquipo:
-      servicioActual.value.estadoEquipo,
+      servicioActual.value.estadoEquipo || 'Recibido',
 
     calificacion:
-      servicioActual.value.estadoEquipo === 'Entregado'
-        ? Number(
-            servicioActual.value.calificacion
-          )
-        : 0,
+      Number(servicios.value[indice].calificacion) || 0,
 
     observaciones:
       servicioActual.value.observaciones
+        ? servicioActual.value.observaciones.trim()
+        : ''
 
   }
 }
@@ -1575,7 +1725,7 @@ function cambiarEstadoEquipo(
 ) {
 
   if (
-    servicio.estadoEquipo === 'Entregado'
+    servicio.estadoEquipo === nuevoEstado
   ) {
     return
   }
@@ -1583,21 +1733,15 @@ function cambiarEstadoEquipo(
   servicio.estadoEquipo =
     nuevoEstado
 
-  // Si deja de estar entregado,
-  // se elimina la calificación.
-  if (
-    nuevoEstado !== 'Entregado'
-  ) {
-
-    servicio.calificacion = 0
-
-  }
+  // IMPORTANTE:
+  // Se conserva la calificación ya registrada como registro histórico.
+  // No se borra si el estado cambia.
 }
 
 
 /*
 |--------------------------------------------------------------------------
-| EDITAR CALIFICACIÓN
+| EDITAR CALIFICACIÓN (SOLO SI NO TIENE CALIFICACIÓN Y ESTÁ ENTREGADO)
 |--------------------------------------------------------------------------
 */
 
@@ -1606,7 +1750,9 @@ function editarCalificacion(
 ) {
 
   if (
-    servicio.estadoEquipo !== 'Entregado'
+    !servicio ||
+    servicio.estadoEquipo !== 'Entregado' ||
+    Number(servicio.calificacion) > 0
   ) {
     return
   }
@@ -1615,9 +1761,7 @@ function editarCalificacion(
     servicio
 
   calificacionTemporal.value =
-    Number(
-      servicio.calificacion || 0
-    )
+    0
 
   mostrarModalCalificacion.value =
     true
@@ -1626,7 +1770,7 @@ function editarCalificacion(
 
 /*
 |--------------------------------------------------------------------------
-| GUARDAR CALIFICACIÓN
+| GUARDAR CALIFICACIÓN (UNA SOLA VEZ, ENTRE 1 Y 5, SIN SOBREESCRITURA)
 |--------------------------------------------------------------------------
 */
 
@@ -1638,16 +1782,28 @@ function guardarCalificacion() {
     return
   }
 
+  // Validación: si ya tiene calificación registrada, no permitir sobreescribir
   if (
-    calificacionTemporal.value < 1
+    Number(servicioCalificacion.value.calificacion) > 0
+  ) {
+    mostrarModalCalificacion.value = false
+    servicioCalificacion.value = null
+    calificacionTemporal.value = 0
+    return
+  }
+
+  const calificacionNum =
+    Math.round(Number(calificacionTemporal.value))
+
+  // Condición: solo valores entre 1 y 5 (no 0)
+  if (
+    calificacionNum < 1 || calificacionNum > 5
   ) {
     return
   }
 
   servicioCalificacion.value.calificacion =
-    Number(
-      calificacionTemporal.value
-    )
+    calificacionNum
 
   mostrarModalCalificacion.value =
     false
